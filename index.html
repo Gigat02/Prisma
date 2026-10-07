@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Prisma</title>
+  <meta name="description" content="Prisma — rompicapo di luce e quadrati: piazza sorgenti rosse, verdi e blu finché ogni casella ha esattamente il suo colore.">
+  <meta name="theme-color" content="#0c0d12">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Prisma">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/apple-touch-icon-167.png">
+  <!-- iPad: schermate di avvio scure (generate da tools/icons.py), senza le quali l'app installata si apre in bianco -->
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1488x2266.png" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2266x1488.png" media="(device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1536x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2048x1536.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1620x2160.png" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2160x1620.png" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1640x2360.png" media="(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2360x1640.png" media="(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1668x2224.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2224x1668.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1668x2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2388x1668.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-1668x2420.png" media="(device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2420x1668.png" media="(device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2732x2048.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2064x2752.png" media="(device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splash/ipad-2752x2064.png" media="(device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <main id="app">
+    <!-- Menu -->
+    <section id="screen-menu" class="screen" aria-labelledby="title">
+      <div class="logo" aria-hidden="true">
+        <i style="--sw:var(--r)"></i><i></i><i style="--sw:var(--b)"></i>
+        <i></i><i style="--sw:var(--w)"></i><i></i>
+        <i style="--sw:var(--g)"></i><i></i><i style="--sw:var(--y)"></i>
+      </div>
+      <h1 id="title">Prisma</h1>
+      <p class="tag">Luce, quadrati e nessuna scorciatoia.</p>
+      <nav class="menu">
+        <button id="btn-play" class="btn primary">Gioca</button>
+        <button id="btn-levels" class="btn">Livelli</button>
+        <button id="btn-guide" class="btn">Come si gioca</button>
+        <button id="btn-shop" class="btn">
+          <svg class="inline-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          Negozio
+        </button>
+        <button id="btn-install" class="btn ghost" hidden>Installa sul telefono</button>
+      </nav>
+      <div class="menu-stats">
+        <p id="menu-progress" class="muted small"></p>
+        <p id="menu-hints" class="muted small"></p>
+      </div>
+    </section>
+
+    <!-- Scelta del livello -->
+    <section id="screen-levels" class="screen" hidden>
+      <header class="bar">
+        <button class="icon-btn" data-go="menu" aria-label="Torna al menu">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <h2>Livelli</h2>
+        <span class="bar-spacer"></span>
+      </header>
+      <div id="level-list" class="level-list"></div>
+    </section>
+
+    <!-- Partita -->
+    <section id="screen-game" class="screen" hidden>
+      <header class="bar">
+        <button class="icon-btn" data-go="levels" aria-label="Torna ai livelli">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="bar-title">
+          <h2 id="game-level">Livello 1</h2>
+          <p id="game-chapter" class="muted small"></p>
+        </div>
+        <button class="icon-btn" id="btn-legend" aria-label="Legenda delle regole" title="Legenda (L)">
+          <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/><path d="M6.5 8h2M6.5 11h2M15.5 8h2M15.5 11h2"/></svg>
+        </button>
+      </header>
+      <p id="hint" class="hint" aria-live="polite"></p>
+      <div id="board-wrap" class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Griglia"></div>
+      </div>
+      <div class="controls">
+        <div id="palette" class="palette" role="toolbar" aria-label="Sorgenti disponibili"></div>
+        <div class="actions">
+          <button id="btn-undo" class="btn ghost" title="Annulla (Z)" aria-label="Annulla">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Annulla</span>
+          </button>
+          <button id="btn-reset" class="btn ghost" title="Ricomincia (R)" aria-label="Ricomincia">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>Ricomincia</span>
+          </button>
+          <button id="btn-hint" class="btn ghost hint-btn" title="Suggerimento (H)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg><span>Suggerimento</span>
+            <span id="hint-count" class="hint-count" hidden></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Come si gioca -->
+    <section id="screen-guide" class="screen" hidden>
+      <header class="bar sticky">
+        <button class="icon-btn" data-go="menu" aria-label="Torna al menu">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <h2>Come si gioca</h2>
+        <span class="bar-spacer"></span>
+      </header>
+      <div id="guide-body" class="guide"></div>
+    </section>
+
+    <!-- Negozio -->
+    <section id="screen-shop" class="screen" hidden>
+      <header class="bar">
+        <button class="icon-btn" data-go="menu" aria-label="Torna al menu">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <h2>Negozio</h2>
+        <span class="bar-spacer"></span>
+      </header>
+      <div class="shop">
+        <div class="wallet">
+          <div class="wallet-n"><b id="shop-balance">∞</b></div>
+          <div>
+            <p class="wallet-title">I tuoi suggerimenti</p>
+            <p id="shop-balance-note" class="muted small"></p>
+            <p id="shop-used" class="muted small"></p>
+          </div>
+        </div>
+        <p class="shop-intro">Un suggerimento indica una mossa giusta sulla griglia e spiega perché. Utile quando sei bloccato, senza rovinarti il resto del livello.</p>
+        <div id="shop-list" class="packs"></div>
+        <p id="shop-status" class="shop-status" aria-live="polite"></p>
+        <p class="muted small shop-note">I pagamenti non sono ancora attivi: i prezzi sono indicativi e nessun acquisto viene addebitato.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Legenda della partita: le regole in vigore fino al livello corrente -->
+  <div id="dlg-legend" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="legend-title">
+    <div class="sheet legend-sheet">
+      <h2 id="legend-title">Legenda</h2>
+      <div id="legend-body" class="legend"></div>
+      <button class="btn primary" data-close>Torna al gioco</button>
+    </div>
+  </div>
+
+  <!-- Installazione su iPhone/iPad (Safari non ha un pulsante da richiamare via codice) -->
+  <div id="dlg-install" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="install-title">
+    <div class="sheet">
+      <h2 id="install-title">Prisma sulla schermata Home</h2>
+      <ol class="rules">
+        <li>Tocca il pulsante <b>Condividi</b> di Safari: su iPhone è in basso, su iPad in alto a destra
+          <svg class="inline-ico" viewBox="0 0 24 24" aria-label="(il quadrato con la freccia in su)"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>.</li>
+        <li>Scegli <b>Aggiungi alla schermata Home</b>.</li>
+        <li>Da lì Prisma si apre a schermo intero e funziona anche senza connessione.</li>
+      </ol>
+      <button class="btn primary" data-close>Ok</button>
+    </div>
+  </div>
+
+  <!-- Livello completato -->
+  <div id="dlg-win" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="win-title">
+    <div class="sheet center">
+      <h2 id="win-title">Livello completato</h2>
+      <p id="win-text" class="muted"></p>
+      <div class="sheet-actions">
+        <button id="btn-next" class="btn primary">Avanti</button>
+        <button id="btn-win-menu" class="btn ghost">Livelli</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/core.js"></script>
+  <script src="assets/levels.js"></script>
+  <script src="assets/render.js"></script>
+  <script src="assets/legend.js"></script>
+  <script src="assets/guide.js"></script>
+  <script src="assets/shop.js"></script>
+  <script src="assets/game.js"></script>
+</body>
+</html>

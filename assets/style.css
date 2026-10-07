@@ -1,0 +1,503 @@
+:root {
+  color-scheme: dark;
+  --bg: #0c0d12;
+  --panel: #151821;
+  --line: #262a36;
+  --text: #ecebf2;
+  --muted: #8b90a3;
+  --floor: #181b24;
+  --wall-a: #252936;
+  --wall-b: #1e212c;
+  --ink: #0a0b0f;
+
+  /* Luce: maschere 1..7 (r, g, y, b, m, c, w). */
+  --r: #ff4f5e;
+  --g: #34d27b;
+  --b: #4a7dff;
+  --y: #ffd23f;
+  --m: #d65bff;
+  --c: #2fd8e0;
+  --w: #f2f2ee;
+
+  --radius: 14px;
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow-x: hidden;
+  overscroll-behavior: none;          /* niente "tira per aggiornare" mentre si gioca */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;        /* niente menu a pressione lunga */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+h1, h2 { margin: 0; font-weight: 650; letter-spacing: 0.01em; }
+
+/* ---------- Schermate ---------- */
+.screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 600px;
+  margin: 0 auto;
+  padding:
+    max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  display: flex;
+  flex-direction: column;
+}
+
+#screen-menu { align-items: center; justify-content: center; text-align: center; gap: 14px; }
+#screen-menu h1 { font-size: 46px; font-weight: 700; letter-spacing: 0.32em; margin-right: -0.32em; text-transform: uppercase; }
+.tag { margin: 0 0 18px; color: var(--muted); }
+
+.logo { display: grid; grid-template-columns: repeat(3, 26px); gap: 6px; margin-bottom: 8px; }
+.logo i { width: 26px; height: 26px; border-radius: 6px; background: var(--sw, var(--floor)); }
+.logo i[style] { animation: breathe 3.6s ease-in-out infinite; box-shadow: 0 0 18px -4px var(--sw); }
+.logo i:nth-child(3) { animation-delay: -0.6s; }
+.logo i:nth-child(5) { animation-delay: -1.2s; }
+.logo i:nth-child(7) { animation-delay: -1.8s; }
+.logo i:nth-child(9) { animation-delay: -2.4s; }
+@keyframes breathe { 50% { opacity: 0.55; transform: scale(0.92); } }
+
+.menu { display: flex; flex-direction: column; gap: 10px; width: min(280px, 100%); }
+
+.btn {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 12px 18px;
+  min-height: 48px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+.btn:hover { border-color: #3a3f4f; }
+.btn:active { transform: scale(0.98); }
+.btn.primary { background: var(--text); color: var(--ink); border-color: var(--text); font-weight: 600; }
+.btn.primary:hover { background: #fff; }
+.btn.ghost { background: transparent; }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.btn:focus-visible, .icon-btn:focus-visible, .cell:focus-visible, .chip:focus-visible, .lvl:focus-visible {
+  outline: 2px solid var(--text); outline-offset: 2px;
+}
+
+/* ---------- Barra in alto ---------- */
+.bar { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.bar h2 { font-size: 19px; }
+.bar-title { flex: 1; text-align: center; }
+.bar-title p { margin: 0; }
+.bar > h2 { flex: 1; text-align: center; }
+.bar-spacer, .icon-btn { width: 44px; height: 44px; flex: none; }
+.icon-btn {
+  display: grid; place-items: center;
+  border: 1px solid var(--line); background: var(--panel); border-radius: 11px; cursor: pointer; padding: 0;
+}
+.icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Livelli ---------- */
+.level-list { padding: 10px 0 24px; }
+.chapter { margin-top: 22px; }
+.chapter h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+.chapter .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 8px; }
+.lvl {
+  aspect-ratio: 1; border-radius: 11px; border: 1px solid var(--line); background: var(--panel);
+  font-weight: 600; cursor: pointer; display: grid; place-items: center; position: relative;
+}
+.lvl.done { background: var(--sw); border-color: var(--sw); color: var(--ink); }
+.lvl.next { border-color: var(--text); box-shadow: 0 0 0 1px var(--text) inset; }
+.lvl:disabled { cursor: default; color: #4a4f60; background: transparent; }
+
+/* ---------- Partita ---------- */
+#screen-game { height: 100vh; height: 100dvh; gap: 10px; }
+.hint { margin: 0; min-height: 0; text-align: center; color: var(--muted); font-size: 14px; }
+.hint:empty { display: none; }
+.board-wrap { flex: 1; min-height: 0; display: grid; place-items: center; }
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  gap: var(--gap);
+}
+
+.cell {
+  --fill: var(--floor);
+  --t: var(--floor);
+  --delay: 0ms;
+  position: relative;
+  width: var(--cell);
+  height: var(--cell);
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--cell) * 0.16);
+  background: var(--fill);
+  cursor: pointer;
+  transition: background-color 0.2s ease var(--delay);
+}
+.cell.lit { box-shadow: 0 0 calc(var(--cell) * 0.3) calc(var(--cell) * -0.12) var(--fill); }
+.cell .t {
+  position: absolute;
+  inset: 32%;
+  border-radius: calc(var(--cell) * 0.07);
+  background: var(--t);
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.45);
+  transition: box-shadow 0.2s ease var(--delay), transform 0.2s ease var(--delay);
+  pointer-events: none;
+  z-index: 1;
+}
+.cell.ok .t { box-shadow: none; }
+.cell.bad .t { transform: scale(1.12); }
+.cell.wall {
+  cursor: default;
+  background: repeating-linear-gradient(135deg, var(--wall-a) 0 5px, var(--wall-b) 5px 10px);
+}
+.cell.void { visibility: hidden; }
+
+/* Elementi che trasformano la luce: brillano del colore che li attraversa (classe .lit). */
+.cell.special { cursor: default; --base: #12141b; }
+.cell.mirror-a, .cell.mirror-b { --bar: #c3cad8; }
+.cell.mirror-a.lit, .cell.mirror-b.lit { --bar: var(--fill); }
+.cell.mirror-a { background: linear-gradient(to bottom right, transparent 43%, var(--bar) 43% 57%, transparent 57%) var(--base); }
+.cell.mirror-b { background: linear-gradient(to bottom left, transparent 43%, var(--bar) 43% 57%, transparent 57%) var(--base); }
+.cell.glass {
+  background: #1d2030;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gl) 42%, var(--base)) 0 48%, color-mix(in srgb, var(--gl) 24%, var(--base)) 52%);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--gl) 80%, transparent);
+}
+.cell.glass::after { /* riflesso sul vetro */
+  content: ""; position: absolute; inset: 18% 52% 52% 18%;
+  border-top: 2px solid rgba(255, 255, 255, 0.45); border-left: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-left-radius: 40%;
+}
+.cell.glass.lit { box-shadow: inset 0 0 0 2px var(--gl), 0 0 calc(var(--cell) * 0.3) calc(var(--cell) * -0.1) var(--fill); }
+.cell.prism { background: var(--base); }
+.prism-shape {
+  position: absolute; inset: 16%;
+  clip-path: polygon(50% 4%, 97% 92%, 3% 92%);
+  background: conic-gradient(from 200deg at 50% 62%, var(--r), var(--y), var(--g), var(--c), var(--b), var(--m), var(--r));
+  opacity: 0.55;
+  transition: opacity 0.2s ease var(--delay);
+}
+.cell.prism.lit .prism-shape { opacity: 1; }
+.cell.veil .t {
+  inset: 24%;
+  background: transparent;
+  box-shadow: none;
+  outline: 1.5px dashed rgba(255, 255, 255, 0.35);
+  outline-offset: -1.5px;
+  display: grid; place-items: center;
+}
+.cell.veil .t::before { content: "?"; font-size: max(11px, calc(var(--cell) * 0.3)); font-weight: 700; line-height: 1; color: rgba(255, 255, 255, 0.6); }
+.cell.veil.lit .t { outline-color: rgba(0, 0, 0, 0.45); }
+.cell.veil.lit .t::before { color: rgba(0, 0, 0, 0.6); }
+/* Faro: un rombo invece di un cerchio, così si distingue dalle sorgenti del giocatore con qualsiasi colore. */
+.lamp.fixed { border-radius: 16%; transform: rotate(45deg) scale(0.8); animation: none; }
+.lamp {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  border: calc(var(--cell) * 0.085) solid var(--l);
+  background: rgba(10, 11, 15, 0.55);
+  box-shadow: 0 0 0 2px var(--ink), inset 0 0 0 2px var(--ink), 0 0 calc(var(--cell) * 0.25) var(--l);
+  pointer-events: none;
+  animation: lamp-in 0.22s ease-out;
+}
+@keyframes lamp-in { from { transform: scale(0.4); opacity: 0; } }
+
+.board.won .cell:not(.wall) { animation: won 0.6s ease var(--wdelay) both; }
+@keyframes won { 40% { transform: scale(0.84); } }
+.shake { animation: shake 0.3s; }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+.controls { display: flex; flex-direction: column; gap: 10px; }
+.palette { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: flex; align-items: center; gap: 8px;
+  min-height: 46px;
+  padding: 7px 12px 7px 10px;
+  border-radius: 12px; border: 1px solid var(--line); background: var(--panel);
+  cursor: pointer; min-width: 64px;
+}
+.chip i {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 5px solid var(--l); box-shadow: 0 0 10px -2px var(--l);
+}
+.chip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.chip.sel { border-color: var(--text); box-shadow: 0 0 0 1px var(--text) inset; }
+.chip:disabled { opacity: 0.32; cursor: default; }
+.chip:disabled i { box-shadow: none; }
+
+.actions { display: flex; justify-content: center; gap: 10px; }
+.actions .btn { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 16px; font-size: 14px; }
+.actions svg, .inline-ico {
+  width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.inline-ico { vertical-align: -3px; }
+
+/* Telefono stretto: tutto un po' più compatto per lasciare spazio alla griglia. */
+@media (max-width: 360px) {
+  #screen-game { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); }
+  .chip { gap: 6px; padding: 6px 10px 6px 8px; min-width: 56px; }
+  .chip i { width: 19px; height: 19px; border-width: 4px; }
+  .hint { font-size: 13px; }
+}
+/* Schermi bassi in verticale: il suggerimento si accorcia invece di rubare righe alla griglia. */
+@media (max-height: 640px) and (orientation: portrait) {
+  #screen-game { gap: 8px; }
+  .hint { font-size: 13px; line-height: 1.35; }
+}
+/* Telefono in orizzontale: griglia a sinistra a tutta altezza, comandi in una colonna a destra. */
+@media (orientation: landscape) and (max-height: 560px) {
+  #screen-game {
+    max-width: 980px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 38%);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "board bar" "board hint" "board controls";
+    column-gap: 20px;
+    row-gap: 10px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  #screen-game .bar { grid-area: bar; }
+  #screen-game .hint { grid-area: hint; text-align: left; font-size: 13px; }
+  #screen-game .board-wrap { grid-area: board; min-height: 0; height: 100%; }
+  #screen-game .controls { grid-area: controls; align-self: start; }
+  #screen-game .palette, #screen-game .actions { justify-content: flex-start; }
+  #screen-menu { gap: 10px; }
+  #screen-menu .logo { display: none; }
+  #screen-menu h1 { font-size: 36px; }
+}
+
+/* ---------- Finestre ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: 10;
+  background: rgba(6, 7, 10, 0.72);
+  backdrop-filter: blur(4px);
+  display: grid; place-items: center;
+  padding: 16px;
+  animation: fade 0.18s ease-out;
+}
+@keyframes fade { from { opacity: 0; } }
+.sheet {
+  width: min(460px, 100%);
+  max-height: calc(100svh - 32px);
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px 20px 20px;
+}
+.sheet.center { text-align: center; }
+.sheet h2 { font-size: 20px; margin-bottom: 10px; }
+.sheet > .btn { width: 100%; margin-top: 14px; }
+.sheet-actions { display: flex; gap: 10px; margin-top: 18px; }
+.sheet-actions .btn { flex: 1; }
+.rules { padding-left: 20px; margin: 0; display: grid; gap: 10px; font-size: 15px; }
+.rules b { font-weight: 600; }
+.mix { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin-top: 8px; }
+.mix span { display: flex; align-items: center; gap: 5px; color: var(--muted); }
+.mix i { width: 16px; height: 16px; border-radius: 4px; background: var(--sw); display: inline-block; }
+.keys { margin: 16px 0 0; }
+.rules-sub { margin: 20px 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+/* Caselle singole per legenda e guida (render.mini). */
+.ex { --cell: 34px; flex: none; cursor: default; animation: none !important; display: inline-block; vertical-align: middle; }
+.ex.swatch { --cell: 20px; border-radius: 5px; }
+.void-ex { background: transparent; outline: 1.5px dashed var(--line); outline-offset: -1.5px; }
+b.c1 { color: var(--r); } b.c2 { color: var(--g); } b.c4 { color: #7fa2ff; }
+kbd {
+  font: 12px/1 var(--font); padding: 2px 5px; border-radius: 5px;
+  border: 1px solid var(--line); background: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Menu: statistiche ---------- */
+.menu-stats { display: grid; gap: 2px; }
+.menu-stats p { margin: 0; }
+.btn .inline-ico { margin-right: 6px; vertical-align: -3px; }
+
+/* ---------- Suggerimento ---------- */
+.hint-btn { position: relative; }
+.hint-count {
+  position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: 10px; background: var(--y); color: var(--ink); font-size: 12px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.cell.hint-here { outline: 3px solid var(--hl, var(--text)); outline-offset: -3px; animation: hint-pulse 1s ease-in-out infinite; }
+.cell.hint-remove { outline: 3px solid var(--r); outline-offset: -3px; animation: hint-pulse 0.8s ease-in-out infinite; }
+.cell.hint-why { outline: 2px dashed var(--text); outline-offset: -4px; }
+@keyframes hint-pulse { 50% { transform: scale(0.9); } }
+@media (max-width: 440px) {
+  .actions { gap: 8px; }
+  .actions .btn { padding: 8px 12px; }
+  .actions .btn:not(.hint-btn) span { display: none; }
+}
+
+/* ---------- Legenda ---------- */
+.legend-sheet { width: min(500px, 100%); }
+.legend { display: grid; gap: 4px; }
+.legend-sec { margin-top: 8px; }
+.legend-h { margin: 8px 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+.legend-list, .guide-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.legend-list li, .guide-steps li { display: flex; gap: 12px; align-items: flex-start; }
+.legend-list p, .guide-steps p { margin: 0; font-size: 14px; line-height: 1.45; }
+.legend-ic { width: 34px; flex: none; display: grid; place-items: center; min-height: 20px; }
+.legend-list li.eq-row { align-items: center; }
+.eq { display: flex; align-items: center; gap: 5px; flex: none; width: 118px; color: var(--muted); font-weight: 600; }
+.badge-new {
+  display: inline-block; margin-right: 6px; padding: 1px 7px; border-radius: 8px;
+  background: var(--y); color: var(--ink); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.legend-demo { margin-top: 10px; }
+
+/* ---------- Guida ---------- */
+.bar.sticky { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 8px 0; margin-top: -8px; }
+.guide { display: grid; gap: 14px; padding: 6px 0 28px; }
+.guide-hero { padding: 18px 12px 14px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); }
+.guide-intro { margin: 2px 0; font-size: 16px; }
+.guide-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+.guide-card h3 { margin: 0 0 6px; font-size: 17px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.guide-card > p { margin: 0 0 12px; color: var(--muted); font-size: 14.5px; }
+.since { font-size: 11px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 1px 7px; }
+.demo { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.demo-cap { margin: 0; min-height: 2.9em; text-align: center; font-size: 14px; color: var(--text); max-width: 34em; }
+.guide-tips { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 14.5px; }
+.guide .keys { text-align: center; }
+
+/* ---------- Negozio ---------- */
+.shop { display: grid; gap: 16px; padding: 10px 0 28px; }
+.wallet { display: flex; gap: 16px; align-items: center; padding: 16px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); }
+.wallet-n {
+  width: 64px; height: 64px; flex: none; border-radius: 16px; display: grid; place-items: center;
+  background: var(--y); color: var(--ink); font-size: 26px;
+  box-shadow: 0 0 24px -6px var(--y);
+}
+.wallet p { margin: 0; }
+.wallet-title { font-weight: 600; }
+.shop-intro { margin: 0; color: var(--muted); font-size: 14.5px; }
+.packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pack {
+  position: relative; display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center;
+  padding: 20px 12px 14px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line);
+}
+.pack-badge {
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  padding: 2px 9px; border-radius: 9px; background: var(--m); color: var(--ink); font-size: 11px; font-weight: 700;
+}
+.pack-n { display: grid; line-height: 1.1; }
+.pack-n b { font-size: 30px; }
+.pack-n span { color: var(--muted); font-size: 13px; }
+.pack-price { font-size: 19px; font-weight: 650; margin-top: 4px; }
+.pack .btn { width: 100%; margin-top: 6px; min-height: 42px; padding: 8px; }
+.shop-status { margin: 0; min-height: 1.4em; text-align: center; font-size: 14px; }
+.shop-note { margin: 0; text-align: center; }
+
+/* Mouse o trackpad (computer, iPad con tastiera): la casella sotto il puntatore si illumina appena. */
+@media (hover: hover) and (pointer: fine) {
+  .cell[data-i]:hover { filter: brightness(1.18); }
+  .lvl:not(:disabled):hover { border-color: #3a3f4f; }
+}
+
+/* ================= Tablet (iPad e simili) =================
+   Da 700px di larghezza e 600 di altezza: più spazio, caselle e comandi più grandi.
+   Sotto queste misure (telefoni, iPad in Split View stretta) vale il layout da telefono. */
+@media (min-width: 700px) and (min-height: 600px) {
+  body { font-size: 17px; }
+  .small { font-size: 14px; }
+  .screen {
+    max-width: 880px;
+    padding:
+      max(24px, env(safe-area-inset-top)) max(28px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom)) max(28px, env(safe-area-inset-left));
+  }
+
+  /* Menu */
+  #screen-menu { gap: 18px; }
+  #screen-menu h1 { font-size: 68px; }
+  .tag { font-size: 19px; margin-bottom: 24px; }
+  .logo { grid-template-columns: repeat(3, 40px); gap: 9px; margin-bottom: 12px; }
+  .logo i { width: 40px; height: 40px; border-radius: 9px; }
+  .menu { width: 360px; gap: 12px; }
+  .menu .btn { min-height: 56px; font-size: 18px; }
+
+  /* Barre e pulsanti */
+  .bar { min-height: 52px; }
+  .bar h2 { font-size: 23px; }
+  .bar-spacer, .icon-btn { width: 52px; height: 52px; }
+  .icon-btn svg { width: 24px; height: 24px; }
+
+  /* Livelli */
+  .chapter .grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px; }
+  .lvl { font-size: 18px; border-radius: 13px; }
+
+  /* Partita in verticale */
+  #screen-game { max-width: 1000px; gap: 16px; }
+  .hint { font-size: 16.5px; max-width: 46em; margin: 0 auto; }
+  .controls { gap: 14px; }
+  .palette { gap: 10px; }
+  .chip { min-height: 58px; padding: 9px 16px 9px 12px; border-radius: 14px; gap: 10px; min-width: 84px; font-size: 18px; }
+  .chip i { width: 28px; height: 28px; border-width: 6px; }
+  .actions { gap: 12px; }
+  .actions .btn { min-height: 54px; padding: 10px 22px; font-size: 16.5px; gap: 9px; }
+  .actions svg { width: 20px; height: 20px; }
+
+  /* Finestre */
+  .sheet { width: min(560px, 100%); padding: 28px 28px 24px; border-radius: 22px; }
+  .legend-sheet { width: min(640px, 100%); }
+  .sheet h2 { font-size: 24px; }
+  .legend-list p, .guide-steps p { font-size: 15.5px; }
+  .ex { --cell: 40px; }
+  .ex.swatch { --cell: 24px; }
+  .legend-ic { width: 40px; }
+  .eq { width: 136px; }
+
+  /* Guida: schede su due colonne, le più lunghe a tutta larghezza */
+  .guide { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .guide > .guide-hero, .guide > .guide-intro, .guide > .wide, .guide > .keys { grid-column: 1 / -1; }
+  .guide-intro { font-size: 18px; text-align: center; max-width: 40em; margin: 4px auto; }
+  .guide-card { padding: 20px; }
+  .guide-card > p, .guide-tips { font-size: 15.5px; }
+  .demo-cap { font-size: 15px; }
+
+  /* Negozio: i pacchetti affiancati */
+  .packs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .pack { padding: 26px 14px 16px; }
+  .pack-n b { font-size: 36px; }
+  .wallet-n { width: 76px; height: 76px; font-size: 32px; }
+  .shop-intro { font-size: 16px; }
+}
+
+/* Tablet e computer in orizzontale: griglia a sinistra a tutta altezza, colonna di comandi a destra. */
+@media (orientation: landscape) and (min-width: 900px) and (min-height: 600px) {
+  #screen-game {
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 30%);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "board bar" "board hint" "board controls";
+    column-gap: 36px;
+    row-gap: 18px;
+  }
+  #screen-game .bar { grid-area: bar; }
+  #screen-game .hint { grid-area: hint; text-align: left; margin: 0; }
+  #screen-game .board-wrap { grid-area: board; height: 100%; }
+  #screen-game .controls { grid-area: controls; align-self: start; gap: 18px; }
+  #screen-game .palette, #screen-game .actions { justify-content: flex-start; }
+  #screen-game .actions { flex-wrap: wrap; }
+  .level-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 36px; }
+  .screen:not(#screen-game) { max-width: 1100px; }
+  .guide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
